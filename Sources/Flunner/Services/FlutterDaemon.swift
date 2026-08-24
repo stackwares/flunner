@@ -184,7 +184,6 @@ class FlutterDaemon: ObservableObject {
                 }
 
                 let result = Self.parseEmulatorTable(output)
-                self?.onLogOutput?("getEmulators: Parsed \(result.count) emulators: \(result.map { "\($0.name)(\($0.platform))" }.joined(separator: ", "))", .info)
                 self?.emulators = result
             }
         }
