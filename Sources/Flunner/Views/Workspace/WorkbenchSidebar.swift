@@ -66,8 +66,7 @@ struct WorkbenchSidebar: View {
                             SidebarSessionRow(
                                 run: run,
                                 systemImage: viewModel.devices.first(where: { $0.id == run.deviceId })?.systemImage
-                                    ?? "display",
-                                showsProject: run.projectPath != viewModel.projectPath
+                                    ?? "display"
                             )
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .contentShape(Rectangle())
@@ -173,7 +172,6 @@ private struct SidebarProjectRow: View {
 private struct SidebarSessionRow: View {
     let run: LiveRun
     let systemImage: String
-    let showsProject: Bool
 
     var body: some View {
         HStack(spacing: WorkbenchSpacing.small) {
@@ -202,8 +200,8 @@ private struct SidebarSessionRow: View {
     }
 
     private var detail: String {
-        if showsProject {
-            return "\(run.configurationName) · \(run.projectName)"
+        if !run.projectName.isEmpty {
+            return "\(run.configurationName) · (\(run.projectName))"
         }
         return run.configurationName
     }
