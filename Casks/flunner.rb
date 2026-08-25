@@ -1,10 +1,10 @@
 cask "flunner" do
   version "1.0.0"
-  sha256 "d94029751ea7e1084c8a408e2b5278354c8dfb46318520a3c92521c3a1324d2c"
+  sha256 "4c49ba1622f5448e81e97f297b340e110060cc7c292e4340f3ba12368ec58fd0"
 
   url "https://github.com/stackwares/flunner/releases/download/v#{version}/Flunner.dmg"
   name "Flunner"
-  desc "Native Flutter workbench with in-app MCP for AI agents"
+  desc "Workbench for the Flutter run-observe-reload loop"
   homepage "https://github.com/stackwares/flunner"
 
   depends_on macos: :sequoia
