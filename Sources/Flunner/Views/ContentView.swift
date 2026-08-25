@@ -113,6 +113,10 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: .showAboutSheet)) { _ in
             showAboutSheet = true
         }
+        .onReceive(NotificationCenter.default.publisher(for: .openAgentsSettings)) { _ in
+            UserDefaults.standard.set(SettingsTab.agents.rawValue, forKey: PreferenceKeys.settingsSelectedTab)
+            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        }
         .sheet(isPresented: $showAboutSheet) {
             AboutView(viewModel: viewModel) {
                 showAboutSheet = false

@@ -34,6 +34,7 @@
 		879EBE3989F3CE14FBA31C74 /* WorkspaceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23D2B55BC3606A7746134F7 /* WorkspaceStore.swift */; };
 		87A9F08FC979B7FC972F1F09 /* FlunnerMCPHTTPListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF9E34362F24084D0A1862A /* FlunnerMCPHTTPListener.swift */; };
 		887ACC5B2ABF1F8F360A2594 /* FlutterSDKInfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E825B0FFF120A25E110CE1E /* FlutterSDKInfoSheet.swift */; };
+		8F61173BF6E22F64E4B68E0B /* AgentMCPConfigWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F235732765556DBB18FB6D15 /* AgentMCPConfigWriter.swift */; };
 		936BA63187E0EDE30F36D2FF /* FlunnerMCPModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF672686DB5283F0BB47D36 /* FlunnerMCPModels.swift */; };
 		A17041DD506336F113CA9E4D /* SourceControlModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205CF20D9CFE53EE6360D0DD /* SourceControlModels.swift */; };
 		A175892E1CFCCEA344AD45AB /* ProjectMaintenanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DAAC15D6C2B042A5B75D60 /* ProjectMaintenanceTests.swift */; };
@@ -55,6 +56,7 @@
 		DA866C16AB438AE7262D792D /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954BC04D2C6A06038C55D3A3 /* Device.swift */; };
 		DC4CBB6336781800465D7DFE /* FlutterRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97ABF8BEFE0742CD721F36 /* FlutterRunner.swift */; };
 		DFFA4FEA068669A80F0C8BBC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EF6C4892EF5DF6A9EC0114 /* SettingsView.swift */; };
+		E1FE6687328F4C5940A17710 /* AgentMCPConfigWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49A456069BF558A32A73E0 /* AgentMCPConfigWriterTests.swift */; };
 		E384DD9237FCFF206626C1F9 /* ConsoleLogToolsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A91CFDE4442149736D2ADB /* ConsoleLogToolsTests.swift */; };
 		E86DB233B364E985A32434AD /* WorkspaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AF86561B1DB23DCD56114D /* WorkspaceViewModel.swift */; };
 		EABBA184B6BB42F8875AFFBB /* LaunchConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB91A1C321D266DD2CF0F0 /* LaunchConfig.swift */; };
@@ -116,6 +118,7 @@
 		A25E3D7EA2AFD9481AE36DAF /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		A3BB91A1C321D266DD2CF0F0 /* LaunchConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchConfig.swift; sourceTree = "<group>"; };
 		BC7A4ECD848BF359394D0EA3 /* TerminalPaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPaneView.swift; sourceTree = "<group>"; };
+		BD49A456069BF558A32A73E0 /* AgentMCPConfigWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentMCPConfigWriterTests.swift; sourceTree = "<group>"; };
 		BD64FB7B6F07FE8A35C0F2DE /* WidgetPreviewerLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPreviewerLauncher.swift; sourceTree = "<group>"; };
 		BE8E3890AB425A6CC101BB91 /* FlunnerMCPToolHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlunnerMCPToolHost.swift; sourceTree = "<group>"; };
 		BE97ABF8BEFE0742CD721F36 /* FlutterRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterRunner.swift; sourceTree = "<group>"; };
@@ -135,6 +138,7 @@
 		E23D2B55BC3606A7746134F7 /* WorkspaceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceStore.swift; sourceTree = "<group>"; };
 		E628CB87D709BF9CCA53115B /* ProjectValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectValidationTests.swift; sourceTree = "<group>"; };
 		F0370DB60B5657B213C5BF88 /* SourceControlTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceControlTests.swift; sourceTree = "<group>"; };
+		F235732765556DBB18FB6D15 /* AgentMCPConfigWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentMCPConfigWriter.swift; sourceTree = "<group>"; };
 		F26B1ADC6749DD8D9C1B825D /* KeyboardShortcutStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutStoreTests.swift; sourceTree = "<group>"; };
 		F2B8A8DB42B764CE9E6A8473 /* TerminalWorkspaceManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspaceManagerTests.swift; sourceTree = "<group>"; };
 		FF669D0A2C4635A96D0BA9B2 /* FlutterSDKInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterSDKInfo.swift; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 		163368076EA29A1793FDB790 /* FlunnerTests */ = {
 			isa = PBXGroup;
 			children = (
+				BD49A456069BF558A32A73E0 /* AgentMCPConfigWriterTests.swift */,
 				37A91CFDE4442149736D2ADB /* ConsoleLogToolsTests.swift */,
 				8205016E09AD86BD26CB69E6 /* FlunnerMCPTests.swift */,
 				F26B1ADC6749DD8D9C1B825D /* KeyboardShortcutStoreTests.swift */,
@@ -284,6 +289,7 @@
 		E891DA0811730A5EA242BA52 /* MCP */ = {
 			isa = PBXGroup;
 			children = (
+				F235732765556DBB18FB6D15 /* AgentMCPConfigWriter.swift */,
 				7FF9E34362F24084D0A1862A /* FlunnerMCPHTTPListener.swift */,
 				0DF672686DB5283F0BB47D36 /* FlunnerMCPModels.swift */,
 				D0EF7D768137638D66623EF8 /* FlunnerMCPServer.swift */,
@@ -413,6 +419,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1FE6687328F4C5940A17710 /* AgentMCPConfigWriterTests.swift in Sources */,
 				E384DD9237FCFF206626C1F9 /* ConsoleLogToolsTests.swift in Sources */,
 				F3131DFC5961257F160F28C6 /* FlunnerMCPTests.swift in Sources */,
 				2A392863F5F7BE8A96DA09C9 /* KeyboardShortcutStoreTests.swift in Sources */,
@@ -433,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BFFEA47A19A53F645423D75 /* AboutView.swift in Sources */,
+				8F61173BF6E22F64E4B68E0B /* AgentMCPConfigWriter.swift in Sources */,
 				2EDBFA4FBD5E8A463A5060CD /* AppState.swift in Sources */,
 				C1BD9BF454206EB8AFE1E3A1 /* ConsoleView.swift in Sources */,
 				F7574472AE0C5A1F1AA4583E /* ContentView.swift in Sources */,

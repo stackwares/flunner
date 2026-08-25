@@ -7,6 +7,14 @@ enum PreferenceKeys {
     static let showTimestamps = "showTimestamps"
     static let followOutput = "followOutput"
     static let mcpEnabled = "mcpEnabled"
+    static let settingsSelectedTab = "settingsSelectedTab"
+}
+
+enum SettingsTab: String {
+    case general
+    case data
+    case shortcuts
+    case agents
 }
 
 enum AppFontSizing {

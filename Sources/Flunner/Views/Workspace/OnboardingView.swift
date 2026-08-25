@@ -163,16 +163,33 @@ struct OnboardingView: View {
     // MARK: - Pages
 
     private var page1: some View {
-        OnboardingPage(
-            symbol: "bolt.badge.automatic.fill",
-            stepLabel: "AI-FIRST COMPANION",
-            headline: "Your Agent's Runtime Sidekick",
-            bodyText: "While your AI coding agent writes and refactors code, Flunner commands the runtime: instant hot-reloads, device orchestration, live log streams, and Git checkpoints.",
-            highlights: [
-                "Pairs seamlessly with Cursor, Claude, Windsurf & Copilot",
-                "Instant hot-reload, restart, and state observation",
-            ]
-        )
+        VStack(spacing: WorkbenchSpacing.compact) {
+            OnboardingPage(
+                symbol: "bolt.badge.automatic.fill",
+                stepLabel: "AI-FIRST COMPANION",
+                headline: "Your Agent's Runtime Sidekick",
+                bodyText: "While your AI coding agent writes and refactors code, Flunner commands the runtime: instant hot-reloads, device orchestration, live log streams, and Git checkpoints.",
+                highlights: [
+                    "Pairs seamlessly with Cursor, Claude, Windsurf & Copilot",
+                    "Instant hot-reload, restart, and state observation",
+                ]
+            )
+
+            HStack {
+                Label("Connect Cursor, Claude, or Codex in one click", systemImage: "cpu")
+                    .workbenchFont(.caption, weight: .medium)
+                    .foregroundStyle(WorkbenchColor.textSecondary)
+                Spacer()
+                Button("Set up in Settings…") {
+                    NotificationCenter.default.post(name: .openAgentsSettings, object: nil)
+                    NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+            }
+            .padding(.horizontal, WorkbenchSpacing.extraLarge)
+            .padding(.bottom, WorkbenchSpacing.small)
+        }
     }
 
     private var page2: some View {

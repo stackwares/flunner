@@ -147,10 +147,13 @@ open Flunner.xcodeproj
 Flunner exposes a localhost [Model Context Protocol](https://modelcontextprotocol.io) server while the app is running. Agents talk to the **live** workbench — not a headless CLI — so they can switch devices, run/stop sessions, read logs, and drive git/terminal.
 
 1. Launch Flunner.
-2. Open **Settings → Agents** and copy the client config (URL + bearer token).
-3. Add it to Cursor or Claude Code.
+2. Open **Settings → Agents**.
+3. Click **Connect Selected Agents** for Cursor, Claude Code, or Codex.
+4. Enable **Keep in sync when Flunner starts** so URL and bearer token updates apply automatically after each launch.
 
-Example Cursor / Claude config (the token is regenerated each launch):
+Manual fallback: copy the JSON snippet from the same tab if you prefer to edit agent config yourself.
+
+Example Cursor / Claude config:
 
 ```json
 {

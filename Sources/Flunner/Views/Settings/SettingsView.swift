@@ -11,6 +11,8 @@ struct SettingsView: View {
     @AppStorage(PreferenceKeys.showTimestamps) private var showTimestamps = true
     @AppStorage(PreferenceKeys.followOutput) private var followOutput = true
     @AppStorage(PreferenceKeys.mcpEnabled) private var mcpEnabled = true
+    @AppStorage(PreferenceKeys.settingsSelectedTab) private var selectedTabRaw = SettingsTab.general.rawValue
+    @State private var selectedAgentTargets: Set<AgentMCPTarget> = []
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -26,7 +28,7 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        TabView {
+        TabView(selection: selectedTabBinding) {
             Form {
                 Section {
                     HStack(spacing: WorkbenchSpacing.medium) {
@@ -101,6 +103,7 @@ struct SettingsView: View {
             }
             .formStyle(.grouped)
             .tabItem { Label("General", systemImage: "gearshape") }
+            .tag(SettingsTab.general)
 
             Form {
                 Section("Recent Projects") {
@@ -111,9 +114,11 @@ struct SettingsView: View {
             }
             .formStyle(.grouped)
             .tabItem { Label("Data", systemImage: "internaldrive") }
+            .tag(SettingsTab.data)
 
             ShortcutSettingsView(keyboardShortcuts: keyboardShortcuts)
                 .tabItem { Label("Shortcuts", systemImage: "keyboard") }
+                .tag(SettingsTab.shortcuts)
 
             Form {
                 Section {
@@ -138,10 +143,54 @@ struct SettingsView: View {
                             .workbenchFont(.caption)
                     }
                 } footer: {
-                    Text("Agents connect to Flunner over localhost while the app is running. The bearer token is regenerated each launch.")
+                    Text("Flunner exposes a localhost MCP server while the app is running. Connecting updates your agent config; enabled agents re-sync automatically on launch.")
                 }
 
-                Section("Client configuration") {
+                Section("Connect AI agent") {
+                    if mcpServer.agentStates.isEmpty {
+                        Text("Start the MCP server to detect installed agents.")
+                            .foregroundStyle(WorkbenchColor.textSecondary)
+                            .workbenchFont(.caption)
+                    } else {
+                        ForEach(mcpServer.agentStates) { agent in
+                            AgentConnectionRow(
+                                agent: agent,
+                                isSelected: Binding(
+                                    get: { selectedAgentTargets.contains(agent.target) },
+                                    set: { isOn in
+                                        if isOn {
+                                            selectedAgentTargets.insert(agent.target)
+                                        } else {
+                                            selectedAgentTargets.remove(agent.target)
+                                        }
+                                    }
+                                ),
+                                autoSyncEnabled: mcpServer.isAutoSyncEnabled(for: agent.target),
+                                onToggleAutoSync: { enabled in
+                                    mcpServer.setAutoSyncEnabled(enabled, for: agent.target)
+                                },
+                                onOpenConfig: { mcpServer.openConfigFile(for: agent.target) }
+                            )
+                        }
+                    }
+
+                    Button("Connect Selected Agents") {
+                        mcpServer.connectAgents(Array(selectedAgentTargets))
+                    }
+                    .disabled(!mcpServer.isRunning || selectedAgentTargets.isEmpty)
+
+                    HStack {
+                        Button("Reveal Discovery File") {
+                            mcpServer.revealDiscoveryFile()
+                        }
+                        Spacer()
+                        Button("Refresh Status") {
+                            mcpServer.refreshAgentStates()
+                        }
+                    }
+                }
+
+                Section("Manual configuration") {
                     Text(mcpServer.cursorConfigSnippet)
                         .workbenchFont(.caption, design: .monospaced)
                         .textSelection(.enabled)
@@ -154,10 +203,40 @@ struct SettingsView: View {
             }
             .formStyle(.grouped)
             .tabItem { Label("Agents", systemImage: "cpu") }
+            .tag(SettingsTab.agents)
         }
-        .frame(width: 600, height: 500)
+        .frame(width: 620, height: 560)
         .workbenchAppFontSize(appFontSize)
         .tint(WorkbenchColor.accent)
+        .onAppear {
+            bootstrapAgentSelection()
+            mcpServer.refreshAgentStates()
+        }
+        .onChange(of: mcpServer.agentStates) { _, _ in
+            bootstrapAgentSelection()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .openAgentsSettings)) { _ in
+            selectedTabRaw = SettingsTab.agents.rawValue
+        }
+    }
+
+    private var selectedTabBinding: Binding<SettingsTab> {
+        Binding(
+            get: { SettingsTab(rawValue: selectedTabRaw) ?? .general },
+            set: { selectedTabRaw = $0.rawValue }
+        )
+    }
+
+    private func bootstrapAgentSelection() {
+        let selectable = Set(
+            mcpServer.agentStates
+                .filter { $0.status != .notInstalled }
+                .map(\.target)
+        )
+        selectedAgentTargets = selectedAgentTargets.intersection(selectable)
+        if selectedAgentTargets.isEmpty {
+            selectedAgentTargets = selectable
+        }
     }
 
     private func restoreDefaults() {
@@ -167,6 +246,80 @@ struct SettingsView: View {
         showTimestamps = true
         followOutput = true
         mcpEnabled = true
+    }
+}
+
+private struct AgentConnectionRow: View {
+    let agent: AgentMCPAgentState
+    @Binding var isSelected: Bool
+    let autoSyncEnabled: Bool
+    let onToggleAutoSync: (Bool) -> Void
+    let onOpenConfig: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: WorkbenchSpacing.xs) {
+            HStack {
+                Toggle(isOn: $isSelected) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(agent.target.displayName)
+                            .workbenchFont(.body, weight: .medium)
+                        Text(agent.configPath.replacingOccurrences(
+                            of: FileManager.default.homeDirectoryForCurrentUser.path,
+                            with: "~"
+                        ))
+                        .workbenchFont(.caption, design: .monospaced)
+                        .foregroundStyle(WorkbenchColor.textSecondary)
+                        .lineLimit(1)
+                    }
+                }
+                .disabled(agent.status == .notInstalled)
+
+                Spacer()
+
+                AgentMCPStatusBadge(status: agent.status)
+            }
+
+            if agent.status != .notInstalled {
+                Toggle("Keep in sync when Flunner starts", isOn: Binding(
+                    get: { autoSyncEnabled },
+                    set: onToggleAutoSync
+                ))
+                .workbenchFont(.caption)
+
+                Button("Open Config File") {
+                    onOpenConfig()
+                }
+                .buttonStyle(.link)
+                .workbenchFont(.caption)
+            }
+        }
+        .padding(.vertical, WorkbenchSpacing.xs)
+    }
+}
+
+private struct AgentMCPStatusBadge: View {
+    let status: AgentMCPConnectionStatus
+
+    var body: some View {
+        Text(status.label)
+            .workbenchFont(.caption, weight: .semibold)
+            .foregroundStyle(foreground)
+            .padding(.horizontal, WorkbenchSpacing.small)
+            .padding(.vertical, 3)
+            .background(background, in: Capsule())
+    }
+
+    private var foreground: Color {
+        switch status {
+        case .connected: WorkbenchColor.success
+        case .outdated: WorkbenchColor.warning
+        case .notConfigured: WorkbenchColor.textSecondary
+        case .notInstalled: WorkbenchColor.textSecondary.opacity(0.7)
+        }
+    }
+
+    private var background: Color {
+        foreground.opacity(0.14)
     }
 }
 

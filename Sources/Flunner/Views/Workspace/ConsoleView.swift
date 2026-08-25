@@ -6,6 +6,7 @@ extension Notification.Name {
     static let showFlutterSDKInfo = Notification.Name("showFlutterSDKInfo")
     static let showOnboardingSheet = Notification.Name("showOnboardingSheet")
     static let showAboutSheet = Notification.Name("showAboutSheet")
+    static let openAgentsSettings = Notification.Name("openAgentsSettings")
 }
 
 struct ConsoleToolbar: View {

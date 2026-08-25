@@ -132,6 +132,14 @@ struct AboutView: View {
                 .foregroundStyle(WorkbenchColor.textSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, WorkbenchSpacing.large)
+
+            Button("Connect your AI agent…") {
+                NotificationCenter.default.post(name: .openAgentsSettings, object: nil)
+                NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+                onDismiss()
+            }
+            .buttonStyle(.link)
+            .workbenchFont(.caption, weight: .medium)
         }
         .padding(.top, WorkbenchSpacing.small)
     }
