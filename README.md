@@ -24,9 +24,11 @@
 
 ## ⚡ Overview
 
-**Flunner** is the dedicated developer workbench and **runtime sidekick for AI coding agents** on macOS. 
+**Flunner** is the dedicated developer workbench and **runtime sidekick for AI coding agents** on macOS.
 
 While your AI coding assistant (Cursor, Claude Code, Windsurf, GitHub Copilot, Roo Code, Aider, Antigravity) generates code and creates diffs, Flunner lives right alongside as your calm, hyper-responsive runtime cockpit—giving you instant hot-reloads, device orchestration, live diagnostic streams, PTY terminal tasks, and Git checkpoints with zero IDE clutter.
+
+Agents can also connect over **Model Context Protocol (MCP)** to the *running* workbench — not a headless CLI — and inspect or drive projects, devices, sessions, logs, git, and the integrated terminal.
 
 > **"While your AI agent writes the code, Flunner commands the runtime."**
 
@@ -34,6 +36,7 @@ While your AI coding assistant (Cursor, Claude Code, Windsurf, GitHub Copilot, R
 
 ## 🤖 Built for the AI Coding Era
 
+* 🔌 **In-app MCP Server** — Cursor, Claude Code, and other MCP clients can inspect and drive the live workbench over localhost (projects, devices, runs, logs, git, and terminal). Enable it in **Settings → Agents**.
 * ⚡️ **Zero-Friction Hot Reload & Restart** — Instantly test agent-generated UI and logic modifications (`r` / `R`) with sub-second response times without ever leaving your editor.
 * 🪵 **High-Density Diagnostics for Prompts** — Stream structured logs with multi-level filtering (`Info`, `Error`, `Command`), regex search, and 1-click diagnostic export to feed crash dumps directly back into AI prompts.
 * 🌿 **Atomic Git Checkpoints** — Built-in native Git sheet to inspect diffs, stage files, and commit agent iterations before running further prompts.
@@ -173,6 +176,7 @@ Flunner is built using modern native Swift and SwiftUI patterns:
 - **UI Layer:** Pure SwiftUI targeting macOS 15 with strict concurrency checking enabled.
 - **Terminal Engine:** Integrated PTY shell sessions using [SwiftTerm](https://github.com/migueldeicaza/SwiftTerm).
 - **Process Orchestration:** Robust asynchronous process runners communicating with the Flutter daemon JSON-RPC protocol over stdio.
+- **Agent Interface:** An in-process localhost MCP server (Streamable HTTP) so editors can call the same workbench APIs as the UI.
 - **Project Structure:** Dual-source configuration using `Package.swift` (SPM) and `project.yml` (XcodeGen).
 
 ```
@@ -180,7 +184,7 @@ Flunner/
 ├── Sources/
 │   └── Flunner/
 │       ├── Models/         # App state, devices, launch configs, daemon protocol
-│       ├── Services/       # Flutter daemon, runner, Git client, terminal manager
+│       ├── Services/       # Flutter daemon, runner, Git, terminal, in-app MCP server
 │       ├── Views/          # Console, terminal, sidebar, controls, settings
 │       └── Design/         # Design tokens, color palette, typography
 ├── Tests/

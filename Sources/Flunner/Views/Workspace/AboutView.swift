@@ -127,7 +127,7 @@ struct AboutView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, WorkbenchSpacing.medium)
 
-            Text("Engineered to pair alongside AI coding agents and modern editors, giving you instant runtime control, log diagnostics, and device orchestration.")
+            Text("Engineered to pair alongside AI coding agents and modern editors. The in-app MCP server lets agents drive the live runtime — runs, logs, devices, git, and terminal.")
                 .font(.caption)
                 .foregroundStyle(WorkbenchColor.textSecondary)
                 .multilineTextAlignment(.center)
