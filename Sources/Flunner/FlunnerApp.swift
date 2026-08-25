@@ -40,13 +40,25 @@ enum ThemeMode: String, CaseIterable {
 
 @main
 struct FlunnerApp: App {
-    @StateObject private var viewModel = WorkspaceViewModel()
-    @StateObject private var sourceControlViewModel = SourceControlViewModel()
+    @StateObject private var viewModel: WorkspaceViewModel
+    @StateObject private var sourceControlViewModel: SourceControlViewModel
+    @StateObject private var mcpServer: FlunnerMCPServer
     @StateObject private var keyboardShortcuts = KeyboardShortcutStore()
     @AppStorage(PreferenceKeys.themeMode) private var themeMode = ThemeMode.system.rawValue
     @AppStorage(PreferenceKeys.appFontSize) private var appFontSize = AppFontSizing.defaultSize
 
     private var selectedTheme: ThemeMode { ThemeMode(rawValue: themeMode) ?? .system }
+
+    init() {
+        let viewModel = WorkspaceViewModel()
+        let sourceControl = SourceControlViewModel()
+        _viewModel = StateObject(wrappedValue: viewModel)
+        _sourceControlViewModel = StateObject(wrappedValue: sourceControl)
+        _mcpServer = StateObject(wrappedValue: FlunnerMCPServer(
+            viewModel: viewModel,
+            sourceControl: sourceControl
+        ))
+    }
 
     var body: some Scene {
         WindowGroup(id: "workspace") {
@@ -55,6 +67,10 @@ struct FlunnerApp: App {
                 .preferredColorScheme(selectedTheme.colorScheme)
                 .workbenchAppFontSize(appFontSize)
                 .environmentObject(keyboardShortcuts)
+                .onAppear { mcpServer.startIfEnabled() }
+                .onReceive(NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)) { _ in
+                    mcpServer.stop()
+                }
         }
         .defaultSize(width: 1120, height: 1440)
         .windowToolbarStyle(.unified)
@@ -99,7 +115,11 @@ struct FlunnerApp: App {
         }
 
         Settings {
-            SettingsView(viewModel: viewModel, keyboardShortcuts: keyboardShortcuts)
+            SettingsView(
+                viewModel: viewModel,
+                keyboardShortcuts: keyboardShortcuts,
+                mcpServer: mcpServer
+            )
                 .preferredColorScheme(selectedTheme.colorScheme)
                 .workbenchAppFontSize(appFontSize)
         }

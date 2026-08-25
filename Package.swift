@@ -17,12 +17,17 @@ let package = Package(
             url: "https://github.com/migueldeicaza/SwiftTerm.git",
             exact: "1.11.2"
         ),
+        .package(
+            url: "https://github.com/modelcontextprotocol/swift-sdk.git",
+            from: "0.12.0"
+        ),
     ],
     targets: [
         .executableTarget(
             name: "Flunner",
             dependencies: [
                 .product(name: "SwiftTerm", package: "SwiftTerm"),
+                .product(name: "MCP", package: "swift-sdk"),
             ],
             path: "Sources/Flunner",
             exclude: [

@@ -142,48 +142,11 @@ final class SourceControlViewModel: ObservableObject {
     }
 
     func refresh() {
-        guard operationTask == nil else { return }
         refreshTask?.cancel()
         let generation = UUID()
         refreshGeneration = generation
-
-        guard let projectURL else {
-            resetRepositoryState()
-            return
-        }
-
-        activity = .refreshing
-        errorMessage = nil
-        refreshTask = Task { [weak self, client] in
-            do {
-                guard let root = try await client.repositoryRoot(from: projectURL) else {
-                    guard let self, self.refreshGeneration == generation else { return }
-                    self.snapshot = nil
-                    self.branches = []
-                    self.commits = []
-                    self.stashes = []
-                    self.diff = nil
-                    self.isRepositoryMissing = true
-                    self.activity = .idle
-                    return
-                }
-
-                async let loadedSnapshot = client.snapshot(at: root)
-                async let loadedBranches = client.branches(at: root)
-                async let loadedCommits = client.history(at: root, offset: 0, limit: Self.historyPageSize)
-                async let loadedStashes = client.stashes(at: root)
-                let values = try await (loadedSnapshot, loadedBranches, loadedCommits, loadedStashes)
-
-                guard let self, self.refreshGeneration == generation, !Task.isCancelled else { return }
-                self.apply(snapshot: values.0, branches: values.1, commits: values.2, stashes: values.3)
-                self.activity = .idle
-            } catch is CancellationError {
-                return
-            } catch {
-                guard let self, self.refreshGeneration == generation else { return }
-                self.present(error)
-                self.activity = .idle
-            }
+        refreshTask = Task { [weak self] in
+            await self?.refreshNow(generation: generation)
         }
     }
 
@@ -551,6 +514,162 @@ final class SourceControlViewModel: ObservableObject {
         }
     }
 
+    func diffForMCP(path: String, staged: Bool) async throws -> GitDiff {
+        let root = try await requireRootForMCP()
+        let file = snapshot?.files.first { $0.path == path } ?? GitFileStatus(
+            path: path,
+            originalPath: nil,
+            indexStatus: staged ? Character("M") : Character("."),
+            workTreeStatus: staged ? Character(".") : Character("M"),
+            kind: .modified
+        )
+        let selection = GitFileSelection(
+            file: file,
+            comparison: staged ? .staged : .workingTree
+        )
+        return try await client.diff(at: root, selection: selection)
+    }
+
+    func stageForMCP(paths: [String]) async throws {
+        let root = try await requireRootForMCP()
+        try await client.stage(paths: paths, at: root)
+        await refreshNow()
+    }
+
+    func unstageForMCP(paths: [String]) async throws {
+        let root = try await requireRootForMCP()
+        try await client.unstage(paths: paths, at: root)
+        await refreshNow()
+    }
+
+    func stageAllForMCP() async throws {
+        let root = try await requireRootForMCP()
+        try await client.stageAll(at: root)
+        await refreshNow()
+    }
+
+    func commitForMCP(message: String) async throws {
+        let trimmed = message.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { throw ActionError.message("Commit message is empty.") }
+        let root = try await requireRootForMCP()
+        guard snapshot?.hasStagedChanges == true else {
+            throw ActionError.message("Nothing is staged to commit.")
+        }
+        try await client.commit(message: trimmed, at: root)
+        commitMessage = ""
+        commitDrafts[root.path] = ""
+        await refreshNow()
+    }
+
+    func fetchForMCP() async throws {
+        let root = try await requireRootForMCP()
+        try await client.fetch(at: root)
+        await refreshNow()
+    }
+
+    func pullForMCP() async throws {
+        guard canPull else { throw ActionError.message("Pull is not available.") }
+        let root = try await requireRootForMCP()
+        try await client.pull(at: root)
+        await refreshNow()
+    }
+
+    func pushForMCP() async throws {
+        guard canPush else { throw ActionError.message("Push is not available.") }
+        let root = try await requireRootForMCP()
+        try await client.push(at: root)
+        await refreshNow()
+    }
+
+    func switchBranchForMCP(_ name: String) async throws {
+        let root = try await requireRootForMCP()
+        try await client.switchBranch(name, at: root)
+        await refreshNow()
+    }
+
+    func createBranchForMCP(_ name: String, startPoint: String?) async throws {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { throw ActionError.message("Branch name is empty.") }
+        let root = try await requireRootForMCP()
+        try await client.createBranch(trimmed, startPoint: startPoint, at: root)
+        await refreshNow()
+    }
+
+    func discardForMCP(paths: [String]) async throws {
+        let root = try await requireRootForMCP()
+        try await client.discard(paths: paths, at: root)
+        await refreshNow()
+    }
+
+    func deleteBranchForMCP(_ name: String) async throws {
+        let root = try await requireRootForMCP()
+        try await client.deleteBranch(name, at: root)
+        await refreshNow()
+    }
+
+    func mergeForMCP(_ name: String) async throws {
+        let root = try await requireRootForMCP()
+        try await client.mergeBranch(name, at: root)
+        await refreshNow()
+    }
+
+    func rebaseForMCP(_ name: String) async throws {
+        let root = try await requireRootForMCP()
+        try await client.rebase(onto: name, at: root)
+        await refreshNow()
+    }
+
+    private func requireRootForMCP() async throws -> URL {
+        if let root = snapshot?.rootURL { return root }
+        guard let projectURL else { throw ActionError.noProject }
+        guard let root = try await client.repositoryRoot(from: projectURL) else {
+            throw ActionError.noRepository
+        }
+        return root
+    }
+
+    private func refreshNow(generation: UUID = UUID()) async {
+        guard operationTask == nil else { return }
+        refreshGeneration = generation
+
+        guard let projectURL else {
+            resetRepositoryState()
+            return
+        }
+
+        activity = .refreshing
+        errorMessage = nil
+        do {
+            guard let root = try await client.repositoryRoot(from: projectURL) else {
+                guard refreshGeneration == generation else { return }
+                snapshot = nil
+                branches = []
+                commits = []
+                stashes = []
+                diff = nil
+                isRepositoryMissing = true
+                activity = .idle
+                return
+            }
+
+            async let loadedSnapshot = client.snapshot(at: root)
+            async let loadedBranches = client.branches(at: root)
+            async let loadedCommits = client.history(at: root, offset: 0, limit: Self.historyPageSize)
+            async let loadedStashes = client.stashes(at: root)
+            let values = try await (loadedSnapshot, loadedBranches, loadedCommits, loadedStashes)
+
+            guard refreshGeneration == generation, !Task.isCancelled else { return }
+            apply(snapshot: values.0, branches: values.1, commits: values.2, stashes: values.3)
+            activity = .idle
+        } catch is CancellationError {
+            return
+        } catch {
+            guard refreshGeneration == generation else { return }
+            present(error)
+            activity = .idle
+        }
+    }
+
     private func resetRepositoryState() {
         refreshTask?.cancel()
         diffTask?.cancel()
@@ -566,6 +685,24 @@ final class SourceControlViewModel: ObservableObject {
         hasMoreHistory = false
         activity = .idle
         errorMessage = nil
+    }
+}
+
+extension SourceControlViewModel {
+    enum ActionError: LocalizedError {
+        case noProject
+        case noRepository
+        case confirmationRequired
+        case message(String)
+
+        var errorDescription: String? {
+            switch self {
+            case .noProject: "Open a Flutter project first."
+            case .noRepository: "This project is not a Git repository."
+            case .confirmationRequired: "This destructive Git action requires confirm=true."
+            case let .message(text): text
+            }
+        }
     }
 }
 

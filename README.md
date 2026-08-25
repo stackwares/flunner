@@ -51,6 +51,7 @@ While your AI coding assistant (Cursor, Claude Code, Windsurf, GitHub Copilot, R
 - 🌿 **Git & Source Control Sheet** — Native source control dialog to stage files, inspect unified diffs, compose commits, switch branches, and push without leaving the workbench.
 - 🛠️ **Project Maintenance & SDK Diagnostics** — One-click `flutter pub get`, `flutter clean`, integrated `flutter doctor` diagnostics viewer, and quick access to Flutter / Dart documentation.
 - 🎨 **Purpose-Built Design** — Native macOS HIG adherence, custom copper/graphite workbench aesthetics, light/dark appearance support, and custom font scaling.
+- 🔌 **In-app MCP Server** — While Flunner is running, AI agents can inspect and drive the live workbench over localhost (projects, devices, runs, logs, git, and terminal).
 
 ---
 
@@ -135,6 +136,33 @@ open Flunner.xcodeproj
 | `⌃ \`` | Toggle Integrated Terminal Pane |
 | `⌘ 2` | Open Source Control Sheet |
 | `⌘ ,` | Settings |
+
+---
+
+## 🤖 MCP Server
+
+Flunner exposes a localhost [Model Context Protocol](https://modelcontextprotocol.io) server while the app is running. Agents talk to the **live** workbench — not a headless CLI — so they can switch devices, run/stop sessions, read logs, and drive git/terminal.
+
+1. Launch Flunner.
+2. Open **Settings → Agents** and copy the client config (URL + bearer token).
+3. Add it to Cursor or Claude Code.
+
+Example Cursor / Claude config (the token is regenerated each launch):
+
+```json
+{
+  "mcpServers": {
+    "flunner": {
+      "url": "http://127.0.0.1:47321/mcp",
+      "headers": {
+        "Authorization": "Bearer <token-from-settings>"
+      }
+    }
+  }
+}
+```
+
+The server binds `127.0.0.1` only (preferred port `47321`). Discovery is also written to `~/Library/Application Support/Flunner/mcp-server.json`. Call `get_status` first to see the current project, devices, sessions, and whether Pub Get / Clean / Run are available.
 
 ---
 

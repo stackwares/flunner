@@ -3,6 +3,9 @@ packages:
   SwiftTerm:
     url: https://github.com/migueldeicaza/SwiftTerm.git
     exactVersion: 1.11.2
+  mcp-swift-sdk:
+    url: https://github.com/modelcontextprotocol/swift-sdk.git
+    from: "0.12.0"
 targets:
   Flunner:
     type: application
@@ -14,6 +17,8 @@ targets:
           - Design/AppIconMaster.png
     dependencies:
       - package: SwiftTerm
+      - package: mcp-swift-sdk
+        product: MCP
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.flunner.app
       DEVELOPMENT_TEAM: V8V5US964Z
@@ -32,6 +37,7 @@ targets:
         com.apple.security.cs.allow-jit: true
         com.apple.security.cs.allow-unsigned-executable-memory: true
         com.apple.security.network.client: true
+        com.apple.security.network.server: true
     scheme:
       testTargets:
         - FlunnerTests

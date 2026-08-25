@@ -19,6 +19,7 @@
 		481A55CEF06C54FC9992E4DD /* ThemeModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E48455E68396C012678DD2 /* ThemeModeTests.swift */; };
 		48D81EFAFDD9EB9F7D6591C4 /* WorkspaceStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D087B9B774F8B22C785FDFAF /* WorkspaceStoreTests.swift */; };
 		4DE24457495B599047F448A4 /* TerminalPaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7A4ECD848BF359394D0EA3 /* TerminalPaneView.swift */; };
+		4E9E4F47BC4EF6512A4E5FF0 /* MCP in Frameworks */ = {isa = PBXBuildFile; productRef = 95A024D3BE15E105E3BF4933 /* MCP */; };
 		4F9E87AAA790F4449C7668DD /* WorkbenchSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EB542B0E60115C8EBDFAAD /* WorkbenchSidebar.swift */; };
 		55CDC2601BBF94B56FABA221 /* FlutterSDKInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421B384B09B31834F98E11F0 /* FlutterSDKInfoService.swift */; };
 		56A2A0A2EA32E8088C109769 /* DaemonMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6D03086D9476BAEF8B09DF /* DaemonMessage.swift */; };
@@ -31,9 +32,12 @@
 		80694B787B183300FD4E9D9B /* LogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B766316CB6890D81175737 /* LogEntry.swift */; };
 		832A0509C3D255141A739315 /* TerminalWorkspaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88629A191CBEFE0E31624762 /* TerminalWorkspaceManager.swift */; };
 		879EBE3989F3CE14FBA31C74 /* WorkspaceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23D2B55BC3606A7746134F7 /* WorkspaceStore.swift */; };
+		87A9F08FC979B7FC972F1F09 /* FlunnerMCPHTTPListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF9E34362F24084D0A1862A /* FlunnerMCPHTTPListener.swift */; };
 		887ACC5B2ABF1F8F360A2594 /* FlutterSDKInfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E825B0FFF120A25E110CE1E /* FlutterSDKInfoSheet.swift */; };
+		936BA63187E0EDE30F36D2FF /* FlunnerMCPModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DF672686DB5283F0BB47D36 /* FlunnerMCPModels.swift */; };
 		A17041DD506336F113CA9E4D /* SourceControlModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205CF20D9CFE53EE6360D0DD /* SourceControlModels.swift */; };
 		A175892E1CFCCEA344AD45AB /* ProjectMaintenanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DAAC15D6C2B042A5B75D60 /* ProjectMaintenanceTests.swift */; };
+		A566B04BB05DAE8B0673C51A /* FlunnerMCPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF7D768137638D66623EF8 /* FlunnerMCPServer.swift */; };
 		A587439C743CD86950683D3F /* FlutterAppIconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C6FCAC62FF4C65A58410B6 /* FlutterAppIconService.swift */; };
 		AAE423E093F5356C98A1756A /* FlunnerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AE14255C14420EE7AC9F22 /* FlunnerApp.swift */; };
 		ABAADAC3A33D50C43B37496E /* ProjectValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E628CB87D709BF9CCA53115B /* ProjectValidationTests.swift */; };
@@ -56,7 +60,9 @@
 		EABBA184B6BB42F8875AFFBB /* LaunchConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB91A1C321D266DD2CF0F0 /* LaunchConfig.swift */; };
 		ED9B74BF9CBA9C8F99D4337A /* RunnerMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2DDEF56DFC39AC76500A564 /* RunnerMessage.swift */; };
 		F05F10747A79C9A22B4D57C9 /* LaunchConfigEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B7CC54E8CB2D0CA7BDE8D8 /* LaunchConfigEditorView.swift */; };
+		F3131DFC5961257F160F28C6 /* FlunnerMCPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8205016E09AD86BD26CB69E6 /* FlunnerMCPTests.swift */; };
 		F7574472AE0C5A1F1AA4583E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7CF391C40BCCE3D0A8E402 /* ContentView.swift */; };
+		FCC4FF50CF6670B2C20B0614 /* FlunnerMCPToolHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E3890AB425A6CC101BB91 /* FlunnerMCPToolHost.swift */; };
 		FD4806BA524FCC06B4A7B8FA /* FlutterSDKInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF669D0A2C4635A96D0BA9B2 /* FlutterSDKInfo.swift */; };
 		FF040D103E7D46DC07FA767A /* SourceControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B933409A81D9BDE1D378860 /* SourceControlView.swift */; };
 /* End PBXBuildFile section */
@@ -73,6 +79,7 @@
 
 /* Begin PBXFileReference section */
 		06EF6C4892EF5DF6A9EC0114 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		0DF672686DB5283F0BB47D36 /* FlunnerMCPModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlunnerMCPModels.swift; sourceTree = "<group>"; };
 		10B7CC54E8CB2D0CA7BDE8D8 /* LaunchConfigEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchConfigEditorView.swift; sourceTree = "<group>"; };
 		14DAAC15D6C2B042A5B75D60 /* ProjectMaintenanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectMaintenanceTests.swift; sourceTree = "<group>"; };
 		1B7CF391C40BCCE3D0A8E402 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,7 +104,9 @@
 		6A0811CF90AC2511A0BC9AF5 /* LiveWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveWorkspaceView.swift; sourceTree = "<group>"; };
 		73C1DADAF332ED9BAF6E9640 /* Flunner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flunner.entitlements; sourceTree = "<group>"; };
 		7BBFDDC4D67135CAB628B526 /* Flunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7FF9E34362F24084D0A1862A /* FlunnerMCPHTTPListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlunnerMCPHTTPListener.swift; sourceTree = "<group>"; };
 		8106F3815BFA32C1DD4CEB2B /* LaunchConfigEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchConfigEditorTests.swift; sourceTree = "<group>"; };
+		8205016E09AD86BD26CB69E6 /* FlunnerMCPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlunnerMCPTests.swift; sourceTree = "<group>"; };
 		858C0E5AEC02E22069A70BF4 /* KeyboardShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcut.swift; sourceTree = "<group>"; };
 		88629A191CBEFE0E31624762 /* TerminalWorkspaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalWorkspaceManager.swift; sourceTree = "<group>"; };
 		8E6D73160CD5A1DAE5487C75 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
@@ -108,11 +117,13 @@
 		A3BB91A1C321D266DD2CF0F0 /* LaunchConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchConfig.swift; sourceTree = "<group>"; };
 		BC7A4ECD848BF359394D0EA3 /* TerminalPaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPaneView.swift; sourceTree = "<group>"; };
 		BD64FB7B6F07FE8A35C0F2DE /* WidgetPreviewerLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPreviewerLauncher.swift; sourceTree = "<group>"; };
+		BE8E3890AB425A6CC101BB91 /* FlunnerMCPToolHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlunnerMCPToolHost.swift; sourceTree = "<group>"; };
 		BE97ABF8BEFE0742CD721F36 /* FlutterRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterRunner.swift; sourceTree = "<group>"; };
 		C231A1CB01459A0CD8218A83 /* FlutterDaemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlutterDaemon.swift; sourceTree = "<group>"; };
 		C2DDEF56DFC39AC76500A564 /* RunnerMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerMessage.swift; sourceTree = "<group>"; };
 		C5821BEC3D6B6E37B761A9D1 /* DevToolsLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevToolsLauncher.swift; sourceTree = "<group>"; };
 		D087B9B774F8B22C785FDFAF /* WorkspaceStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceStoreTests.swift; sourceTree = "<group>"; };
+		D0EF7D768137638D66623EF8 /* FlunnerMCPServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlunnerMCPServer.swift; sourceTree = "<group>"; };
 		D39B0E9AB9BAA777D6FFAF8C /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		D3EB542B0E60115C8EBDFAAD /* WorkbenchSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkbenchSidebar.swift; sourceTree = "<group>"; };
 		D50F68ED0BA13F249B2938A6 /* LegacySidebarToolbarItemCleanup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacySidebarToolbarItemCleanup.swift; sourceTree = "<group>"; };
@@ -135,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C466FF331A876D4E53EE5E9C /* SwiftTerm in Frameworks */,
+				4E9E4F47BC4EF6512A4E5FF0 /* MCP in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				37A91CFDE4442149736D2ADB /* ConsoleLogToolsTests.swift */,
+				8205016E09AD86BD26CB69E6 /* FlunnerMCPTests.swift */,
 				F26B1ADC6749DD8D9C1B825D /* KeyboardShortcutStoreTests.swift */,
 				8106F3815BFA32C1DD4CEB2B /* LaunchConfigEditorTests.swift */,
 				5509A7C667F6C2E4F2B5DD87 /* MultiProjectRunnerTests.swift */,
@@ -217,6 +230,7 @@
 				DF8761236493770A9DBB7B24 /* UserDefaultsStore.swift */,
 				E23D2B55BC3606A7746134F7 /* WorkspaceStore.swift */,
 				61AF86561B1DB23DCD56114D /* WorkspaceViewModel.swift */,
+				E891DA0811730A5EA242BA52 /* MCP */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -265,6 +279,17 @@
 				70A57C76726EA530150EA021 /* Workspace */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		E891DA0811730A5EA242BA52 /* MCP */ = {
+			isa = PBXGroup;
+			children = (
+				7FF9E34362F24084D0A1862A /* FlunnerMCPHTTPListener.swift */,
+				0DF672686DB5283F0BB47D36 /* FlunnerMCPModels.swift */,
+				D0EF7D768137638D66623EF8 /* FlunnerMCPServer.swift */,
+				BE8E3890AB425A6CC101BB91 /* FlunnerMCPToolHost.swift */,
+			);
+			path = MCP;
 			sourceTree = "<group>";
 		};
 		F4695A6367637E968EBFFD2B /* Settings */ = {
@@ -328,6 +353,7 @@
 			name = Flunner;
 			packageProductDependencies = (
 				3D4EEC9B92CEB24A5E32B645 /* SwiftTerm */,
+				95A024D3BE15E105E3BF4933 /* MCP */,
 			);
 			productName = Flunner;
 			productReference = 7BBFDDC4D67135CAB628B526 /* Flunner.app */;
@@ -358,6 +384,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				D67ECEA5277B4D1E5A35D69F /* XCRemoteSwiftPackageReference "SwiftTerm" */,
+				E0A03535EAA1216565CB6339 /* XCRemoteSwiftPackageReference "swift-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1336D01F1AE9071F3F78C218 /* Products */;
@@ -387,6 +414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E384DD9237FCFF206626C1F9 /* ConsoleLogToolsTests.swift in Sources */,
+				F3131DFC5961257F160F28C6 /* FlunnerMCPTests.swift in Sources */,
 				2A392863F5F7BE8A96DA09C9 /* KeyboardShortcutStoreTests.swift in Sources */,
 				4362F9531E606880E3B3092B /* LaunchConfigEditorTests.swift in Sources */,
 				771048CD8CE4B6AAD2A59ECD /* MultiProjectRunnerTests.swift in Sources */,
@@ -413,6 +441,10 @@
 				31644EED246B30466DD3A244 /* DevToolsLauncher.swift in Sources */,
 				DA866C16AB438AE7262D792D /* Device.swift in Sources */,
 				AAE423E093F5356C98A1756A /* FlunnerApp.swift in Sources */,
+				87A9F08FC979B7FC972F1F09 /* FlunnerMCPHTTPListener.swift in Sources */,
+				936BA63187E0EDE30F36D2FF /* FlunnerMCPModels.swift in Sources */,
+				A566B04BB05DAE8B0673C51A /* FlunnerMCPServer.swift in Sources */,
+				FCC4FF50CF6670B2C20B0614 /* FlunnerMCPToolHost.swift in Sources */,
 				A587439C743CD86950683D3F /* FlutterAppIconService.swift in Sources */,
 				452E866B4DDDDCFD39DA5046 /* FlutterDaemon.swift in Sources */,
 				7D06693B1B5AAF9B8817140A /* FlutterProjectMaintenanceService.swift in Sources */,
@@ -699,6 +731,14 @@
 				version = 1.11.2;
 			};
 		};
+		E0A03535EAA1216565CB6339 /* XCRemoteSwiftPackageReference "swift-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/modelcontextprotocol/swift-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.12.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -706,6 +746,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D67ECEA5277B4D1E5A35D69F /* XCRemoteSwiftPackageReference "SwiftTerm" */;
 			productName = SwiftTerm;
+		};
+		95A024D3BE15E105E3BF4933 /* MCP */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E0A03535EAA1216565CB6339 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			productName = MCP;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -1,13 +1,16 @@
+import AppKit
 import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var viewModel: WorkspaceViewModel
     @ObservedObject var keyboardShortcuts: KeyboardShortcutStore
+    @ObservedObject var mcpServer: FlunnerMCPServer
     @AppStorage(PreferenceKeys.themeMode) private var themeMode = ThemeMode.system.rawValue
     @AppStorage(PreferenceKeys.appFontSize) private var appFontSize = AppFontSizing.defaultSize
     @AppStorage(PreferenceKeys.consoleFontSize) private var consoleFontSize = 12.0
     @AppStorage(PreferenceKeys.showTimestamps) private var showTimestamps = true
     @AppStorage(PreferenceKeys.followOutput) private var followOutput = true
+    @AppStorage(PreferenceKeys.mcpEnabled) private var mcpEnabled = true
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -111,6 +114,46 @@ struct SettingsView: View {
 
             ShortcutSettingsView(keyboardShortcuts: keyboardShortcuts)
                 .tabItem { Label("Shortcuts", systemImage: "keyboard") }
+
+            Form {
+                Section {
+                    Toggle("Enable MCP Server", isOn: $mcpEnabled)
+                    LabeledContent("Status", value: mcpServer.isRunning ? "Listening" : "Stopped")
+                    LabeledContent("URL") {
+                        Text(mcpServer.connectionURLString)
+                            .textSelection(.enabled)
+                            .workbenchFont(.body, design: .monospaced)
+                    }
+                    if let token = mcpServer.token {
+                        LabeledContent("Token") {
+                            Text(token)
+                                .textSelection(.enabled)
+                                .workbenchFont(.caption, design: .monospaced)
+                                .lineLimit(1)
+                        }
+                    }
+                    if let error = mcpServer.lastError {
+                        Text(error)
+                            .foregroundStyle(WorkbenchColor.error)
+                            .workbenchFont(.caption)
+                    }
+                } footer: {
+                    Text("Agents connect to Flunner over localhost while the app is running. The bearer token is regenerated each launch.")
+                }
+
+                Section("Client configuration") {
+                    Text(mcpServer.cursorConfigSnippet)
+                        .workbenchFont(.caption, design: .monospaced)
+                        .textSelection(.enabled)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Button("Copy Cursor / Claude Config") {
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(mcpServer.cursorConfigSnippet, forType: .string)
+                    }
+                }
+            }
+            .formStyle(.grouped)
+            .tabItem { Label("Agents", systemImage: "cpu") }
         }
         .frame(width: 600, height: 500)
         .workbenchAppFontSize(appFontSize)
@@ -123,6 +166,7 @@ struct SettingsView: View {
         consoleFontSize = 12
         showTimestamps = true
         followOutput = true
+        mcpEnabled = true
     }
 }
 

@@ -6,6 +6,7 @@ enum PreferenceKeys {
     static let consoleFontSize = "fontSize"
     static let showTimestamps = "showTimestamps"
     static let followOutput = "followOutput"
+    static let mcpEnabled = "mcpEnabled"
 }
 
 enum AppFontSizing {
@@ -76,5 +77,10 @@ class UserDefaultsStore {
     var followOutput: Bool {
         get { defaults.object(forKey: PreferenceKeys.followOutput) as? Bool ?? true }
         set { defaults.set(newValue, forKey: PreferenceKeys.followOutput) }
+    }
+
+    var mcpEnabled: Bool {
+        get { defaults.object(forKey: PreferenceKeys.mcpEnabled) as? Bool ?? true }
+        set { defaults.set(newValue, forKey: PreferenceKeys.mcpEnabled) }
     }
 }
