@@ -39,10 +39,8 @@ struct WorkbenchSidebar: View {
                     .accessibilityValue(isSelected ? "Selected" : "Not selected")
                     .help("Open \(project.displayName)")
                         .contextMenu {
-                            Button("Open") { viewModel.selectWorkspace(.project(project.path)) }
                             Button("Reveal in Finder") { viewModel.revealProject(project) }
-                            Divider()
-                            Button("Remove from Recents", role: .destructive) {
+                            Button("Remove", role: .destructive) {
                                 viewModel.removeRecentProject(project)
                             }
                             .disabled(viewModel.isProjectRunning(project.path))
